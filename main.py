@@ -4,14 +4,12 @@ import time
 import easyocr
 
 nom = set()
-nom1 = set()
 
 faceCascade = cv2.CascadeClassifier('haara/haarcascade_russian_plate_number.xml')
 video_capture = cv2.VideoCapture(0)
 vd = cv2.VideoCapture(0)
 while True:
     ret, frame = video_capture.read()
-    # time.sleep(0.05)
     gr = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     plaques = faceCascade.detectMultiScale(gr, 1.1, 5)
@@ -24,7 +22,6 @@ while True:
         gray = cv2.cvtColor(imp, cv2.COLOR_RGB2GRAY)
         gup = cv2.GaussianBlur(gray, (5, 5), 0)
         bf = cv2.bilateralFilter(gup, 11, 17, 17)
-        # cv2.imwrite('frame.jpg', gr)
         text = easyocr.Reader(['en'])
         res = text.readtext(bf, allowlist='ETYOPAHKXCBM0123456789', detail=0)
         if len(res) > 0:
